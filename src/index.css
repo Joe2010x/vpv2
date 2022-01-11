@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
 }
 
 code {
@@ -60,4 +61,169 @@ code {
   flex-wrap: wrap;
   padding: 5px;
   border:1px solid gray;
+}
+
+#conference {
+  text-align: center;
+  border: 1px solid black;
+}
+
+#start_end {
+  background-color: #2596be;
+  text-align: center;
+  width: 1200px;
+  height:50px;
+  margin: auto;
+  
+}
+
+#StartConf {
+  margin:auto;
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+  font-weight: bold;
+}
+
+#end_session {
+  margin:auto;
+  background-color: darkred;
+  color: blanchedalmond;
+  
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+  font-weight: bold;
+}
+
+#conf_body {
+  background-color:#cfedef;
+  text-align: center;
+  width: 1200px;
+  height:600px;
+  margin: auto;
+  display:flex;
+}
+
+#publish_field {
+  background-color:#f2d89f;
+  text-align: center;
+  width: 300px;
+  height:600px;
+}
+
+#zoom_out {
+  background-color:#ffecb4;
+  text-align: center;
+  width: 600px;
+  height:600px;
+}
+
+#chat_div {
+  background-color:#eebca5;
+  text-align: center;
+  width: 300px;
+  height:600px;
+}
+
+#publish_camera {
+  width :200px;
+  height:200px;
+  background-color: darkcyan;
+  margin:auto;
+  margin-top: 20px;
+}
+
+#publish_screen {
+  width :200px;
+  height:200px;
+  background-color: darkcyan;
+  margin:auto;
+  margin-top: 20px;
+}
+
+#btn_publish{
+  width:100px;
+  height:30px;
+  margin:auto;
+  margin-top: 20px;
+}
+
+.btn_pub {
+  width:100px;
+  height:30px;
+  margin:auto;
+  margin-top: 20px;
+
+}
+
+#btn_screen{
+  width:100px;
+  height:30px;
+  margin:auto;
+  margin-top: 20px;
+}
+#zoom_stream {
+  
+  width:500px;
+  height:500px;
+  margin:auto;
+  margin-top: 50px;  
+  background-color: rgb(60, 163, 163);
+  color: white;
+  font-size: 10px;
+  align-items: center;
+}
+
+#chat_view{
+  width:260px;
+  height:500px;
+  margin:auto;
+  margin-top: 50px;  
+  background-color: rgb(172, 142, 221);
+}
+
+#lower_field {
+  width: 1200px;
+  height: 260px;
+  margin: auto;
+  background-color: darksalmon;
+  display:flex;
+}
+
+#subscriber{
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  margin: auto;
+}
+#sub_box {
+  width: 870px;
+  height: 200px;
+  background-color: darkslategrey;
+  margin: 31px 15px 15px 15px;
+  display:flex;
+  text-align: center;
+}
+#chat_box {
+  width: 300px;
+  height: 260px;
+  background-color: darkturquoise;
+  display:flex
+
+}
+
+#chat_input {
+  width:220px;
+  height: 80px;
+  margin-top: 100px;
+  margin-left: 5px;
+  background-color: fuchsia;
+}
+
+#send {
+  width:60px;
+  height: 60px;
+  margin-top: 110px;
+  margin-left: 3px;
 }
