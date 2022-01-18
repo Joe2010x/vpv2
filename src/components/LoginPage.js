@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react/cjs/react.development'
+import React, { useState } from 'react'
 import axios from 'axios'
 
 const LoginPage =(props)=>{
