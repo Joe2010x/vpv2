@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 //import {uniqueId} from 'lodash'
-import { useState } from 'react/cjs/react.development'
+//import { useState } from 'react/cjs/react.development'
 
 const CheckBox = (props) =>{
 //label,initialChecked(boolean),onChange(function)

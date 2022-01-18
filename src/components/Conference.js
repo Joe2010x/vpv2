@@ -3,13 +3,17 @@ import axios from 'axios'
 const OT = require ('@opentok/client')
 
 let session, publisher_cam,publisher_scr, subscriber;
+let newToken, person;
 const handleError = (err)=>{
     if (err) 
         {alert(err.message)}
 }
 
-const Conference =({newToken})=>{
-    
+const Conference =(props)=>{
+    newToken = props.newToken[1]
+    person = props.newToken[0]
+    console.log(newToken)
+    console.log(person)
     //const base_Url = "http://192.168.10.197:3001"
     const base_Url = "https://vpbackend-utu.herokuapp.com"
     const [api_key,setApiKey] = useState(null)
@@ -104,7 +108,7 @@ const Conference =({newToken})=>{
 
         session.on("signal:msg", function (event){
             
-                alert("signal received "+ event.data)
+                //alert("signal received "+ event.data)
                 //setChatText(chatText.copy()+"\n"+event.data)
                 updateChat(event.data)
             
@@ -138,7 +142,7 @@ const Conference =({newToken})=>{
             publisher_cam = OT.initPublisher (
                 "publish_camera",pubOptions,
                 {
-                    insertMode:"append",
+                    insertMode:"replace",
                     width:"200px",
                     height:"200px"
                 },
@@ -161,8 +165,22 @@ const Conference =({newToken})=>{
 
         const cameraOff = () =>{
 
-            session.unpublish(publisher_cam)
+            //session.unpublish(publisher_cam)
             setpublishBtnOn(true)
+            let pubOptions = {
+                publishAudio:true,
+                publishVideo:false
+            }
+            //create a publisher
+            publisher_cam = OT.initPublisher (
+                "publish_camera",pubOptions,
+                {
+                    insertMode:"replace",
+                    width:"200px",
+                    height:"200px"
+                },
+                handleError
+            );
         }
 
         const screenOff = () =>{
@@ -203,11 +221,11 @@ const Conference =({newToken})=>{
              
             
         }
-        const getEleId=(e) =>{
-            console.log("the element id is ")
-            console.log("target is "+e.target.id);
-            console.log("current target is "+e.currentTarget.id)
-        }
+        // const getEleId=(e) =>{
+        //     console.log("the element id is ")
+        //     console.log("target is "+e.target.id);
+        //     console.log("current target is "+e.currentTarget.id)
+        // }
 
         const handleChatInput =(event)=>{
             setChatInputValue (event.target.value)
@@ -215,7 +233,7 @@ const Conference =({newToken})=>{
 
         const sendText = ()=>{
             //alert("text input is "+ chatInputValue)
-            session.signal ({   data:chatInputValue,
+            session.signal ({   data:person+" says == > "+chatInputValue,
                                 type:"msg"
                 },
                 function (error) {
@@ -224,8 +242,8 @@ const Conference =({newToken})=>{
                     } else 
                         {
                             console.log('signal sent.')
-                            setChatText("btn action "+chatText.slice()+"\n"+chatInputValue.slice()+"\n")
-                            console.log(chatText)
+                            // setChatText("btn action "+chatText.slice()+"\n"+chatInputValue.slice()+"\n")
+                            // console.log(chatText)
                         } 
                     } 
                 )

@@ -17,6 +17,7 @@ const LoginPage =(props)=>{
     //const checkEmail =()=>{}
     const checkEmail = () =>{
         let token = null
+        //let base_Url1= "http://localhost:3001"
          axios.get(base_Url +"/getToken/"+email)
             .then(res=>{
                // userList = JSON.stringify(res.data) 
