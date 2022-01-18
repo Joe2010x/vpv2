@@ -18,6 +18,8 @@ const Conference =({newToken})=>{
     const [startOn,setStartOn] = useState(true)
     const [screenBtnOn,setScreenBtnOn] = useState(true)
     const [publishBtnOn,setpublishBtnOn] = useState(true)
+    const [chatInputValue,setChatInputValue] = useState("")
+    const [chatText,setChatText] = useState('')
 
     useEffect(()=>{
         axios.get(base_Url+"/vonageKey/")
@@ -68,7 +70,7 @@ const Conference =({newToken})=>{
         })
 
         session.on('streamCreated',function(event){
-            session.subscribe(event.stream,"sub_box",
+            subscriber = session.subscribe(event.stream,"sub_box",
             {
                 insertMode:"append",
                 width:"200px",
@@ -76,8 +78,50 @@ const Conference =({newToken})=>{
             },
             handleError
             )
+            console.log("new stream id is "+event.stream.streamId)
+            //subscriber.element.style.padding="20px"
+            subscriber.element.onclick = function(){
+                console.log("result of click is "+event.stream.streamId)
+                session.subscribe(event.stream,"zoom_stream",
+            {
+                insertMode:"replace",
+                width:"80%",
+                height:"80%", 
+            },
+            handleError
+            )
+            
+            }
+
+            // document.getElementById(event.stream.streamId).style.padding="20px";
+            // document.getElementById(event.stream.streamId).onclick = function(){
+            //     console.log("result of click is "+event.stream.streamId)
+            // }
+        }
+            
+            
+        )
+
+        session.on("signal:msg", function (event){
+            
+                alert("signal received "+ event.data)
+                //setChatText(chatText.copy()+"\n"+event.data)
+                updateChat(event.data)
+            
         })
+
     }
+
+    function updateChat(content) {
+        const msgHistory = document.getElementById("messageArea");
+        const msg = document.createElement("p");
+        msg.textContent = content;
+        msgHistory.appendChild(msg);
+        msgHistory.scroll({
+          top: msgHistory.scrollHeight,
+          behavior: "smooth"
+        });
+      }
 
     const terminateSession = () =>{
         //session = OT.initSession(api_key,sessionId);
@@ -138,7 +182,7 @@ const Conference =({newToken})=>{
             publisher_scr = OT.initPublisher (
                 "publish_screen",pubOptions,
                 {
-                    insertMode:"replace",
+                    insertMode:"append",
                     width:"200px",
                     height:"200px"
                 },
@@ -159,9 +203,33 @@ const Conference =({newToken})=>{
              
             
         }
-        const getEleId=(data,e) =>{
+        const getEleId=(e) =>{
             console.log("the element id is ")
-            console.log(e,data);
+            console.log("target is "+e.target.id);
+            console.log("current target is "+e.currentTarget.id)
+        }
+
+        const handleChatInput =(event)=>{
+            setChatInputValue (event.target.value)
+        }
+
+        const sendText = ()=>{
+            //alert("text input is "+ chatInputValue)
+            session.signal ({   data:chatInputValue,
+                                type:"msg"
+                },
+                function (error) {
+                    if (error) {
+                        handleError(error)
+                    } else 
+                        {
+                            console.log('signal sent.')
+                            setChatText("btn action "+chatText.slice()+"\n"+chatInputValue.slice()+"\n")
+                            console.log(chatText)
+                        } 
+                    } 
+                )
+                
         }
 
     
@@ -189,13 +257,13 @@ const Conference =({newToken})=>{
                         :<button id="btn_publish_off" className='btn_pub' onClick ={cameraOff}>Camera Off</button>}
                         
 
-                        <div id = "publish_camera" onClick={getEleId} />
+                        <div id = "publish_camera"  />
                         {(screenBtnOn)
                         ?<button id="btn_screen"  className="btn_pub" onClick={publishScreen} > Share Screen </button>
                         :<button id="btn_screen_off" className='btn_pub' onClick ={screenOff}>Screen Off</button>}
                         
                         
-                        <div id = "publish_screen" onClick={getEleId}/>
+                        <div id = "publish_screen" />
                             
                     </div>
 
@@ -206,7 +274,10 @@ const Conference =({newToken})=>{
                     </div>
 
                     <div id="chat_div" >
-                        <textarea id="chat_view"/>
+                        
+                        <div id="chat_view" >
+                            <div id="messageArea" className="messages"/>
+                        </div>
                     </div>
 
             </div>
@@ -215,16 +286,18 @@ const Conference =({newToken})=>{
             {(sessionIsOn===true)
             ?
             <div id="lower_field" >
-                <div id = 'sub_box' onClick={getEleId}>
+                <div id = 'sub_box'  >
                     {/* <div id="subscriber" /> */}
                 </div>
 
                 <div id="chat_box">
-                    <input type ='text' id = "chat_input" />
-                    <button id = 'send'>send</button>
+                    <input type ='text' id = "chat_input" onChange={handleChatInput}/>
+                    <button id = 'send' onClick={sendText}>send</button>
                 </div>
             </div>
             :null}
+
+            
             
             
 
