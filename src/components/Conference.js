@@ -185,8 +185,21 @@ const Conference =(props)=>{
 
         const screenOff = () =>{
 
-            session.unpublish(publisher_scr)
+            //session.unpublish(publisher_scr)
             setScreenBtnOn(true)
+            let pubOptions = {
+                publishAudio:true,
+                publishVideo:false
+            }
+            publisher_scr = OT.initPublisher (
+                "publish_screen",pubOptions,
+                {
+                    insertMode:"replace",
+                    width:"200px",
+                    height:"200px"
+                },
+                handleError
+            );
         }
 
         const publishScreen =()=>{
@@ -200,13 +213,13 @@ const Conference =(props)=>{
             publisher_scr = OT.initPublisher (
                 "publish_screen",pubOptions,
                 {
-                    insertMode:"append",
+                    insertMode:"replace",
                     width:"200px",
                     height:"200px"
                 },
                 handleError
             );
-            setpublishBtnOn(false)
+            //setpublishBtnOn(false)
             
                     session.publish(publisher_scr,function(error){
                         if (error){
@@ -257,14 +270,27 @@ const Conference =(props)=>{
              <h1>Conference page</h1>
             <br/>
             {(api_key!==null && sessionId!==null)
-            ? <div id = "start_end">
+            ? <div>
+
+                {(sessionIsOn!==true)
+                ?<div id = "greeting">
+                <h1>Hi! {person}</h1>
+                <h2>Please click the button below to start the session</h2>
+                </div>
+                :null}
+            <div id = "start_end">
                 
                 {(startOn)
-                    ? <button id = "StartConf"  onClick = {initializeSession}>Initiate Conference</button>
+                    ?<div >
+                        <button id = "StartConf"  onClick = {initializeSession}>Initiate Conference</button>
+                    </div>                  
+                    
                     :<button id="end_session" onClick={terminateSession}>Terminate</button>
                 }                
             
-            </div>:null}
+            </div>
+            </div>
+            :null}
             
             {(sessionIsOn===true)
             ?
